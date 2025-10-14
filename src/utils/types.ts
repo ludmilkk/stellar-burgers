@@ -38,3 +38,16 @@ export type TUser = {
 };
 
 export type TTabMode = 'bun' | 'sauce' | 'main';
+
+export type TFeedData = {
+  orders?: TOrder[];
+  total: number;
+  totalToday: number;
+  isLoading?: boolean;
+  error?: string | null;
+};
+
+export type TConstructorItems = {
+  bun: TIngredient | null;
+  ingredients: TConstructorIngredient[];
+};
