@@ -22,18 +22,15 @@ export const ProtectedRoute: FC<ProtectedRouteProps> = ({
   const isAuthChecked = useSelector(selectIsAuthChecked);
   const isLoading = useSelector(selectIsLoading);
 
-  // Показываем прелоадер, пока проверяется авторизация
   if (!isAuthChecked || isLoading) {
     return <Preloader />;
   }
 
-  // Если маршрут только для неавторизованных, но пользователь авторизован
   if (onlyUnAuth && isAuthenticated) {
     const redirectPath = location.state?.from?.pathname || '/';
     return <Navigate to={redirectPath} replace />;
   }
 
-  // Если маршрут защищенный, но пользователь не авторизован
   if (!onlyUnAuth && !isAuthenticated) {
     return <Navigate to='/login' state={{ from: location }} replace />;
   }

@@ -22,7 +22,6 @@ const initialState: FeedState = {
   error: null
 };
 
-// Асинхронная thunk-функция для получения ленты заказов
 export const loadFeed = createAsyncThunk(
   'feed/load',
   async (_, { rejectWithValue }) => {
@@ -39,7 +38,6 @@ export const loadFeed = createAsyncThunk(
   }
 );
 
-// Асинхронная thunk-функция для получения заказа по номеру
 export const loadOrderByNumber = createAsyncThunk(
   'feed/loadOrderByNumber',
   async (orderNumber: number, { rejectWithValue }) => {
@@ -64,7 +62,6 @@ const feedSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Load feed
       .addCase(loadFeed.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -80,7 +77,6 @@ const feedSlice = createSlice({
         state.isLoading = false;
         state.error = action.payload as string;
       })
-      // Load order by number
       .addCase(loadOrderByNumber.pending, (state) => {
         state.isOrderLoading = true;
         state.error = null;

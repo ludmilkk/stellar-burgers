@@ -19,7 +19,6 @@ const initialState: BurgerConstructorState = {
   error: null
 };
 
-// Асинхронная thunk-функция для создания заказа
 export const createBurgerOrder = createAsyncThunk(
   'burgerConstructor/createOrder',
   async (ingredientIds: string[], { rejectWithValue }) => {
