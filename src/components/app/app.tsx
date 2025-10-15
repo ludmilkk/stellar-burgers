@@ -5,6 +5,7 @@ import {
   Login,
   Register,
   ForgotPassword,
+  ResetPassword,
   Profile,
   ProfileOrders,
   NotFound404
@@ -100,6 +101,14 @@ const App: FC = () => {
           element={
             <ProtectedRoute onlyUnAuth>
               <ForgotPassword />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path='/reset-password'
+          element={
+            <ProtectedRoute onlyUnAuth>
+              <ResetPassword />
             </ProtectedRoute>
           }
         />
