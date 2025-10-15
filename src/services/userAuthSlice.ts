@@ -5,7 +5,7 @@ import {
   updateUserApi,
   TRegisterData
 } from '../utils/burger-api';
-import { setCookie, deleteCookie } from '../utils/cookie';
+import { deleteCookie } from '../utils/cookie';
 import { TUser } from '../utils/types';
 
 export interface UserAuthState {
@@ -88,11 +88,13 @@ const userAuthSlice = createSlice({
         state.user = action.payload;
         state.isAuthenticated = true;
         state.isAuthChecked = true;
+        state.error = null;
       })
-      .addCase(checkUserAuth.rejected, (state) => {
+      .addCase(checkUserAuth.rejected, (state, { error }) => {
         state.isLoading = false;
         state.isAuthenticated = false;
         state.isAuthChecked = true;
+        state.error = error.message || 'Ошибка проверки авторизации';
       })
       .addCase(logoutUser.pending, (state) => {
         state.isLoading = true;
@@ -101,10 +103,11 @@ const userAuthSlice = createSlice({
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;
+        state.error = null;
       })
-      .addCase(logoutUser.rejected, (state, action) => {
+      .addCase(logoutUser.rejected, (state, { error }) => {
         state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = error.message || 'Ошибка выхода';
       })
       .addCase(updateUser.pending, (state) => {
         state.isLoading = true;
@@ -112,17 +115,19 @@ const userAuthSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.user = action.payload;
+        state.error = null;
       })
-      .addCase(updateUser.rejected, (state, action) => {
+      .addCase(updateUser.rejected, (state, { error }) => {
         state.isLoading = false;
-        state.error = action.payload as string;
+        state.error = error.message || 'Ошибка обновления данных';
       });
   },
   selectors: {
     selectUser: (state) => state.user,
     selectIsAuthenticated: (state) => state.isAuthenticated,
     selectIsAuthChecked: (state) => state.isAuthChecked,
-    selectIsLoading: (state) => state.isLoading
+    selectIsLoading: (state) => state.isLoading,
+    selectError: (state) => state.error
   }
 });
 
@@ -132,7 +137,8 @@ export const {
   selectUser,
   selectIsAuthenticated,
   selectIsAuthChecked,
-  selectIsLoading
+  selectIsLoading,
+  selectError
 } = userAuthSlice.selectors;
 
 export default userAuthSlice.reducer;
