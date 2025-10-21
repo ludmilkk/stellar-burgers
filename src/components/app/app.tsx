@@ -151,8 +151,6 @@ const App: FC = () => {
           }
         />
 
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
-
         {/* 404 */}
         <Route path='*' element={<NotFound404 />} />
       </Routes>
