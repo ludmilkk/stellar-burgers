@@ -1,4 +1,8 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import {
+  createSlice,
+  createAsyncThunk,
+  createSelector
+} from '@reduxjs/toolkit';
 import { TIngredient } from '../utils/types';
 import { getIngredientsApi } from '../utils/burger-api';
 
@@ -53,23 +57,31 @@ const ingredientsSlice = createSlice({
   selectors: {
     selectAllIngredients: (state) => state.ingredients,
     selectIngredientsLoading: (state) => state.isLoading,
-    selectIngredientsError: (state) => state.error,
-    selectBuns: (state) =>
-      state.ingredients.filter((ingredient) => ingredient.type === 'bun'),
-    selectMains: (state) =>
-      state.ingredients.filter((ingredient) => ingredient.type === 'main'),
-    selectSauces: (state) =>
-      state.ingredients.filter((ingredient) => ingredient.type === 'sauce')
+    selectIngredientsError: (state) => state.error
   }
 });
 
 export const {
   selectAllIngredients,
   selectIngredientsLoading,
-  selectIngredientsError,
-  selectBuns,
-  selectMains,
-  selectSauces
+  selectIngredientsError
 } = ingredientsSlice.selectors;
+
+export const selectBuns = createSelector(
+  [selectAllIngredients],
+  (ingredients) => ingredients.filter((ingredient) => ingredient.type === 'bun')
+);
+
+export const selectMains = createSelector(
+  [selectAllIngredients],
+  (ingredients) =>
+    ingredients.filter((ingredient) => ingredient.type === 'main')
+);
+
+export const selectSauces = createSelector(
+  [selectAllIngredients],
+  (ingredients) =>
+    ingredients.filter((ingredient) => ingredient.type === 'sauce')
+);
 
 export default ingredientsSlice.reducer;

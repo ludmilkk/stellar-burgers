@@ -12,6 +12,7 @@ import {
 } from '@pages';
 import '../../index.css';
 import styles from './app.module.css';
+import orderInfoStyles from '../ui/order-info/order-info.module.css';
 
 import {
   AppHeader,
@@ -62,7 +63,11 @@ const App: FC = () => {
           path='/feed/:number'
           element={
             <div className={styles.detailPageWrap}>
-              <p className='text text_type_digits-default'>Детали заказа</p>
+              <p
+                className={`text text_type_digits-default ${orderInfoStyles.number}`}
+              >
+                #{String(location.pathname.split('/').pop()).padStart(6, '0')}
+              </p>
               <OrderInfo />
             </div>
           }
@@ -135,12 +140,18 @@ const App: FC = () => {
           element={
             <ProtectedRoute>
               <div className={styles.detailPageWrap}>
-                <p className='text text_type_digits-default'>Детали заказа</p>
+                <p
+                  className={`text text_type_digits-default ${orderInfoStyles.number}`}
+                >
+                  #{String(location.pathname.split('/').pop()).padStart(6, '0')}
+                </p>
                 <OrderInfo />
               </div>
             </ProtectedRoute>
           }
         />
+
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
 
         {/* 404 */}
         <Route path='*' element={<NotFound404 />} />
@@ -152,7 +163,10 @@ const App: FC = () => {
           <Route
             path='/feed/:number'
             element={
-              <Modal title='' onClose={handleModalClose}>
+              <Modal
+                title={`#${String(location.pathname.split('/').pop()).padStart(6, '0')}`}
+                onClose={handleModalClose}
+              >
                 <OrderInfo />
               </Modal>
             }
@@ -169,7 +183,10 @@ const App: FC = () => {
             path='/profile/orders/:number'
             element={
               <ProtectedRoute>
-                <Modal title='' onClose={handleModalClose}>
+                <Modal
+                  title={`#${String(location.pathname.split('/').pop()).padStart(6, '0')}`}
+                  onClose={handleModalClose}
+                >
                   <OrderInfo />
                 </Modal>
               </ProtectedRoute>

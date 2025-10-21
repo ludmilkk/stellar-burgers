@@ -1,5 +1,4 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { RegisterUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { registerUserApi } from '@api';
@@ -11,7 +10,6 @@ export const Register: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<Error | null>(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = (e: SyntheticEvent) => {
@@ -25,8 +23,6 @@ export const Register: FC = () => {
           localStorage.setItem('refreshToken', response.refreshToken);
 
           dispatch(checkUserAuth());
-
-          navigate('/');
         } else {
           setError(new Error('Ошибка регистрации'));
         }

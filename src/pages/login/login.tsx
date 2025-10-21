@@ -1,5 +1,4 @@
 import { FC, SyntheticEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { LoginUI } from '@ui-pages';
 import { useDispatch } from '../../services/store';
 import { loginUserApi } from '@api';
@@ -10,7 +9,6 @@ export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<Error | null>(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleSubmit = (e: SyntheticEvent) => {
@@ -24,8 +22,6 @@ export const Login: FC = () => {
           localStorage.setItem('refreshToken', response.refreshToken);
 
           dispatch(checkUserAuth());
-
-          navigate('/');
         } else {
           setError(new Error('Ошибка входа'));
         }
